@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"
+    integrity="sha512-bLwLr3lzJN1cvtbClBMhKDyaD0uocWmphiqO8v0w3/z/XqUwzkM00gZq7BV3dQS9mQu0rarZMTsxlcnIHszElA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.esm.min.js"></script>
+
+  <body style="background-color: #f5f5f5">
+    <div class="flex items-center justify-center h-screen">
+      <button
+        id="authButton"
+        class="bg-red-500 absolute top-20 right-40 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Not Authenticated
+      </button>
+      <div class="text-center">
+        <h1 class="text-2xl font-semibold mb-4">Web3 Authentication</h1>
+        <button
+          style="background: linear-gradient(to right, #4facfe, #00f2fe)"
+          id="signInButton"
+          class="hover:bg-blue-700 hover:shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Generate Challenge
+        </button>
+        <button
+          style="background: linear-gradient(to right, #4facfe, #00f2fe)"
+          id="verifyButton"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
+        >
+          Verify Challenge
+        </button>
+        <button
+          id="NftsButton"
+          class=" text-white font-bold py-2 px-4 rounded mt-4 bg-red-500"
+        >
+          Get NFTs
+        </button>
+        <p
+          id="challenge"
+          class="mt-4 w-[60rem] h-[2rem] text-lg font-semibold mb-4 text-blue-900"
+        ></p>
+        <p id="nfts" class="mt-4 max-h-[40rem] h-[40rem] overflow-scroll"></p>
+      </div>
+    </div>
+
+    <script src="{% static 'metamask_app/js/metamask_integration.js' %}"></script>
+    <script>
+      
+const NftsButton = document.getElementById("NftsButton");
+
+const updateAuthButton = async() => {
+  const access_token = await sessionStorage.getItem("token");
+  console.log(access_token,"this is upadsdfas");
+  if (access_token) {
+    NftsButton.classList.remove("bg-red-500");
+    NftsButton.classList.add("bg-green-500")
+    authButton.textContent = "Authenticated";
+    authButton.classList.remove("bg-red-500");
+    authButton.classList.add("bg-green-500");
+  } else {
+    NftsButton.classList.remove("bg-green-500");
+    NftsButton.classList.add("bg-red-500")
+    authButton.textContent = "Not Authenticated";
+    authButton.classList.remove("bg-green-500");
+    authButton.classList.add("bg-red-500");
+  }
+};
+
+updateAuthButton()
+
+window.addEventListener("storage", (event) => {
+  console.log(event);
+  if (event.key === "token") {
+    updateAuthButton()
+  }
+});
+
+   
+    </script>
+  </body>
+</html>
